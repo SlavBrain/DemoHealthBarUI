@@ -8,30 +8,30 @@ public class Player : MonoBehaviour
     [SerializeField] private Enemy _enemy;
     [SerializeField] private Healer _healer;
 
-    [SerializeField] public int CurrentHP { get; private set; }
+    [SerializeField] public int _currentHP;
 
     public delegate void ActionThisHP(int HP);
     public event ActionThisHP ChandgedHP;
 
     private void Start()
     {
-        CurrentHP = MaxHP;
+        _currentHP = MaxHP;
         _enemy.Attacked += TakeDamage;
         _healer.Healed += Heal;
     }
 
     private void TakeDamage(int damage)
     {
-        if (CurrentHP > 0)
+        if (_currentHP > 0)
         {
-            CurrentHP -= damage;
+            _currentHP -= damage;
 
-            if (CurrentHP <= 0)
+            if (_currentHP <= 0)
             {
-                CurrentHP = 0;
+                _currentHP = 0;
             }
 
-            ChandgedHP?.Invoke(CurrentHP);
+            ChandgedHP?.Invoke(_currentHP);
         }
     }
 
@@ -39,16 +39,16 @@ public class Player : MonoBehaviour
     {
         
 
-        if (CurrentHP < MaxHP)
+        if (_currentHP < MaxHP)
         {
-            CurrentHP += healPower;
+            _currentHP += healPower;
 
-            if (CurrentHP > MaxHP)
+            if (_currentHP > MaxHP)
             {
-                CurrentHP = MaxHP;
+                _currentHP = MaxHP;
             }
 
-            ChandgedHP?.Invoke(CurrentHP);
+            ChandgedHP?.Invoke(_currentHP);
         }        
     }
 }

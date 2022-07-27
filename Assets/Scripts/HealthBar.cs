@@ -17,15 +17,11 @@ public class HealthBar : MonoBehaviour
         _slider = GetComponent<Slider>();
         _slider.maxValue = _player.MaxHP;
         _slider.value = _slider.maxValue;
-        //_player.ChandgedHP += ChandgeSliderValue;
+        _player.ChandgedHP += ChandgeSliderValue;
     }
 
     private void Update()
     {
-        if(_slider.value!= _player.CurrentHP)
-        {
-            ChandgeSliderValue(_player.CurrentHP);
-        }
     }
     private void ChandgeSliderValue(int value)
     {
@@ -34,14 +30,14 @@ public class HealthBar : MonoBehaviour
             StopCoroutine(_sliding);
         }
 
-        StartCoroutine(MovingSlider(value));
+        _sliding=StartCoroutine(MovingSlider(value));
     }
 
     private IEnumerator MovingSlider(int endValue)
     {
         while (_slider.value != endValue)
         {
-            _slider.value = Mathf.MoveTowards((int)_slider.value, endValue, Time.deltaTime * _sliderSpeed);
+            _slider.value = Mathf.MoveTowards(_slider.value, endValue, Time.deltaTime * _sliderSpeed);
             yield return null;
         }
     }
