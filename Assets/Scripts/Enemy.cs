@@ -5,7 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Button))]
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]private int _damage=20;
+    [SerializeField]private int _damage=10;
     private Button _button;   
 
     public delegate void SendDamage(int damage);
