@@ -5,48 +5,36 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] public int MaxHP { get; private set; } = 200;
-    [SerializeField] private Enemy _enemy;
-    [SerializeField] private Healer _healer;
 
-    [SerializeField] public int _currentHP;
+    public delegate void Action(int HP);
+    public event Action ChandgedHP;
 
-    public delegate void ActionThisHP(int HP);
-    public event ActionThisHP ChandgedHP;
+    private int _currentHP;    
 
     private void Start()
     {
         _currentHP = MaxHP;
-        _enemy.Attacked += TakeDamage;
-        _healer.Healed += Heal;
     }
 
-    private void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         if (_currentHP > 0)
         {
             _currentHP -= damage;
 
-            if (_currentHP <= 0)
-            {
-                _currentHP = 0;
-            }
+            _currentHP = Mathf.Clamp(_currentHP, 0, MaxHP);
 
             ChandgedHP?.Invoke(_currentHP);
         }
     }
 
-    private void Heal(int healPower)
+    public void Heal(int healPower)
     {
-        
-
         if (_currentHP < MaxHP)
         {
             _currentHP += healPower;
 
-            if (_currentHP > MaxHP)
-            {
-                _currentHP = MaxHP;
-            }
+            _currentHP = Mathf.Clamp(_currentHP, 0, MaxHP);
 
             ChandgedHP?.Invoke(_currentHP);
         }        

@@ -7,12 +7,12 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [SerializeField] private Player _player;
-    [SerializeField] private int _sliderSpeed=3;
+    [SerializeField] private int _sliderSpeed;
 
     private Slider _slider;
     private Coroutine _sliding;    
 
-    private void Start()
+    private void OnEnable()
     {
         _slider = GetComponent<Slider>();
         _slider.maxValue = _player.MaxHP;
@@ -20,9 +20,11 @@ public class HealthBar : MonoBehaviour
         _player.ChandgedHP += ChandgeSliderValue;
     }
 
-    private void Update()
+    private void OnDisable()
     {
+        _player.ChandgedHP -= ChandgeSliderValue;
     }
+
     private void ChandgeSliderValue(int value)
     {
         if (_sliding != null)
